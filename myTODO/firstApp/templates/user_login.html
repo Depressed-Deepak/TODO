@@ -1,0 +1,32 @@
+{% extends "home.html" %}
+{% load static %}
+
+{% block content %}
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+
+    <div class="login-box">
+      <h2>Login</h2>
+      <form method="post" >
+          {% csrf_token %}
+        <div class="user-box m-10">
+          <input type="text" name="username" required="">
+          <label>Username</label>
+        </div>
+        <div class="user-box">
+          <input type="password" name="pwd" required="">
+          <label>Password</label>
+        </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+        <div>New User?</div>
+        <a href="{% url 'user_signup' %}" style="color: yellow">SignUp</a>
+    </div>
+
+{% endblock content %}

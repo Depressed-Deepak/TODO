@@ -1,0 +1,65 @@
+{% extends "home.html" %}
+{% load static %}
+
+{% block content %}
+
+
+<div class="card-body p-4" style="max-height: 80vh; overflow-y: auto;">
+
+    <div class="d-flex justify-content-between align-items-center my-3 pb-3">
+      <h4 class="text-center flex-grow-1 text-md-center">To Do App</h4>
+
+      <form action="{% url 'user_logout' %}" method="POST">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary">Logout</button>
+      </form>
+    </div>
+
+
+  <form class="row row-cols-lg-auto g-3 justify-content-center align-items-center mb-4 pb-2" method="POST" action="">
+    {% csrf_token %}
+    <div class="col-12">
+      <div data-mdb-input-init class="form-outline">
+        <input type="text" id="form1" class="form-control" name="title"/>
+        <label class="form-label" for="form1">Enter a task here</label>
+      </div>
+    </div>
+    <div class="col-12">
+      <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary">Save</button>
+    </div>
+  </form>
+
+  <!-- Table scrollable -->
+  <div style="max-height: 400px; overflow-y: auto;">
+    <table class="table mb-4">
+      <thead>
+        <tr>
+          <th scope="col">No.</th>
+          <th scope="col">Todo item</th>
+          <th scope="col">Status</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for todo in todos %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ todo.title }}</td>
+          <td>{{ todo.get_status_display }}</td>
+            <td>
+                <form action="{% url 'delete' todo.id %}" method="POST" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+
+                <a href="{% url 'todo_update' todo.id %}" class="btn btn-primary">Edit</a>
+            </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+{% endblock %}
